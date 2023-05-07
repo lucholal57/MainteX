@@ -1,9 +1,10 @@
 package com.project.MainteX.Entity;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "asset")
+@Table(name = "assets")
 public class AssetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
