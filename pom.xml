@@ -15,6 +15,7 @@
 	<description>Software Maintenance </description>
 	<properties>
 		<java.version>19</java.version>
+		<mainclass>com.project.MainteX.MainteXApplication</mainclass>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,6 +47,59 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Dependencia para usar Swagger Contrato INICIO-->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-data-rest</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+		<!-- Dependencia para usar Test Unitarios-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<!-- Dependencia para usar Swagger Contrato FIN-->
+
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.7.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.7.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -53,7 +107,43 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${mainclass}</mainClass>
+				</configuration>
 			</plugin>
+
+			<!-- Plugin de Swagger para contrato Yaml -->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/rest-contract.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>com.project.MainteX.app.api</apiPackage>
+							<modelPackage>com.project.MainteX.app.model</modelPackage>
+							<ignoreFileOverride>${project.basedir}/src/swagger/ignore</ignoreFileOverride>
+							<generateApiDocumentation>true</generateApiDocumentation>
+							<generateModelDocumentation>true</generateModelDocumentation>
+							<generateSupportingFiles>true</generateSupportingFiles>
+							<library>spring-boot</library>
+							<configOptions>
+								<useSwaggerUI>true</useSwaggerUI>
+								<annotationLibrary>swagger2</annotationLibrary>
+								<dateLibrary>java8</dateLibrary>
+								<delegatePattern>true</delegatePattern>
+								<sourceFolder>src/gen/java/main</sourceFolder>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 	<repositories>
